@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Button, Modal, Text, TouchableOpacity, TextInput, ScrollView, StyleSheet } from 'react-native';
 import DatePicker from '../components/DatePicker';
 import MyCalendar from '../components/Calendar';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen: React.FC = () => {
   const [startDate, setStartDate] = useState<string | null>(null);
@@ -12,11 +13,13 @@ const HomeScreen: React.FC = () => {
   // States for modal data
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [sexualActivity, setSexualActivity] = useState<{protected: boolean, unprotected: boolean}>({protected: false, unprotected: false});
+  const [sexualActivity, setSexualActivity] = useState<{ protected: boolean, unprotected: boolean }>({ protected: false, unprotected: false });
   const [feelings, setFeelings] = useState<string[]>([]);
   const [symptoms, setSymptoms] = useState<string[]>([]);
-  const [contraceptive, setContraceptive] = useState<{today: boolean, yesterday: boolean, none: boolean}>({today: false, yesterday: false, none: false});
+  const [contraceptive, setContraceptive] = useState<{ today: boolean, yesterday: boolean, none: boolean }>({ today: false, yesterday: false, none: false });
   const [notes, setNotes] = useState('');
+
+  const navigation = useNavigation();
 
   const handleDateChange = (date: Date) => {
     const formattedDate = date.toISOString().split('T')[0];
@@ -114,7 +117,7 @@ const HomeScreen: React.FC = () => {
   const symptomOptions = ['acne', 'piriri', 'dor abdominal', 'dor de cabeça', 'dor nas costas', 'enxaqueca'];
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <DatePicker onDateChange={handleDateChange} />
       <MyCalendar
         startDate={startDate}
@@ -227,65 +230,106 @@ const HomeScreen: React.FC = () => {
           </View>
         </ScrollView>
       </Modal>
-    </View>
-  );
-};
+      {/* Botões de navegação */}
+      <View style={styles.navigationContainer}>
+  <TouchableOpacity
+    style={styles.navigationButton}
+    onPress={() => navigation.navigate('PhotoScreen' as never)} // Ensure route names are correct
+  >
+    <Text style={styles.navigationButtonText}>Fotos</Text>
+  </TouchableOpacity>
+  <TouchableOpacity
+    style={styles.navigationButton}
+    onPress={() => navigation.navigate('NoteScreen' as never)}
+  >
+    <Text style={styles.navigationButtonText}>Notas</Text>
+  </TouchableOpacity>
+  <TouchableOpacity
+    style={styles.navigationButton}
+    onPress={() => navigation.navigate('DiaryScreen' as never)}
+  >
+    <Text style={styles.navigationButtonText}>Diário</Text>
+  </TouchableOpacity>
+</View>
 
-const styles = StyleSheet.create({
-  modalContent: {
-    padding: 20,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 20,
-  },
-  sexualActivityContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 10,
-},
-sexualActivityButton: {
-  padding: 10,
-  borderRadius: 5,
-  borderWidth: 1,
-  borderColor: '#ccc',
-},
-selectedButton: {
-  backgroundColor: '#ccc',
-},
-buttonText: {
-  color: '#000',
-},
-emotionsContainer: {
-  flexDirection: 'row',
-  marginBottom: 10,
-},
-emotionButton: {
-  padding: 10,
-  borderRadius: 5,
-  borderWidth: 1,
-  borderColor: '#ccc',
-  marginHorizontal: 5,
-},
-contraceptiveContainer: {
-  flexDirection: 'row',
-  justifyContent: 'space-around',
-  marginBottom: 10,
-},
-contraceptiveButton: {
-  padding: 10,
-  borderRadius: 5,
-  borderWidth: 1,
-  borderColor: '#ccc',
-},
-});
-
-export default HomeScreen;
+          </View>
+        );
+      };
+      
+      const styles = StyleSheet.create({
+        modalContent: {
+          padding: 20,
+        },
+        input: {
+          borderWidth: 1,
+          borderColor: '#ccc',
+          borderRadius: 5,
+          padding: 10,
+          marginBottom: 10,
+        },
+        buttonContainer: {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginTop: 20,
+        },
+        sexualActivityContainer: {
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+          marginBottom: 10,
+        },
+        sexualActivityButton: {
+          padding: 10,
+          borderRadius: 5,
+          borderWidth: 1,
+          borderColor: '#ccc',
+        },
+        selectedButton: {
+          backgroundColor: '#ccc',
+        },
+        buttonText: {
+          color: '#000',
+        },
+        emotionsContainer: {
+          flexDirection: 'row',
+          marginBottom: 10,
+        },
+        emotionButton: {
+          padding: 10,
+          borderRadius: 5,
+          borderWidth: 1,
+          borderColor: '#ccc',
+          marginHorizontal: 5,
+        },
+        contraceptiveContainer: {
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+          marginBottom: 10,
+        },
+        contraceptiveButton: {
+          padding: 10,
+          borderRadius: 5,
+          borderWidth: 1,
+          borderColor: '#ccc',
+        },
+        navigationContainer: {
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+          padding: 10,
+          borderTopWidth: 1,
+          borderTopColor: '#ddd',
+        },
+        navigationButton: {
+          padding: 10,
+          borderRadius: 5,
+          borderWidth: 1,
+          borderColor: '#ccc',
+          backgroundColor: '#f9f9f9',
+        },
+        navigationButtonText: {
+          fontSize: 16,
+          color: '#007bff',
+        },
+      });
+      
+      export default HomeScreen;
+      
