@@ -75,18 +75,20 @@ const HomeScreen: React.FC = () => {
 
   const handleSave = () => {
     // Save the data (sexualActivity, feelings, symptoms, contraceptive, notes) for the selected date
-    // Implement your logic here
+    // BD
     setModalVisible(false);
   };
 
-  const toggleSexualActivity = (activity: 'protected' | 'unprotected') => {
+  //Options
+
+  const toggleSexualActivity = (activity: 'Protegido' | 'Desprotegido') => {
     setSexualActivity((prev) => ({
       ...prev,
       [activity]: !prev[activity],
     }));
   };
 
-  const toggleContraceptive = (option: 'today' | 'yesterday' | 'none') => {
+  const toggleContraceptive = (option: 'Hoje | 'Ontem' | 'Nenhum') => {
     setContraceptive((prev) => ({
       ...prev,
       [option]: !prev[option],
